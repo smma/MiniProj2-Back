@@ -3,8 +3,7 @@ let router = express.Router();
 const QuestionController = require('../controllers/question.controller');
 const {
     body,
-    param,
-    sanitizeBody
+    param
 } = require('express-validator');
 const AuthController = require("../controllers/auth.controller");
 

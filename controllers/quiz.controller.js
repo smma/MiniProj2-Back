@@ -29,7 +29,6 @@ exports.create = async (req, res) => {
         const quiz = await new Quiz({
             name: req.body.name,
             points: req.body.points,
-            hidden: req.body.hidden,
             level: req.body.level,
             questions: req.body.questions
         }).save();

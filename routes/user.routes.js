@@ -3,8 +3,7 @@ let router = express.Router();
 const UserController = require('../controllers/user.controller');
 const {
     body,
-    param,
-    sanitizeBody
+    param
 } = require('express-validator');
 const CONFIG = require("../config/config");
 const AuthController = require("../controllers/auth.controller");
@@ -19,11 +18,11 @@ router.route('/')
         body('location.country').isString(),
         body('auth.username').isAlphanumeric(),
         body('auth.password').isString(),
-        sanitizeBody('name').whitelist(CONFIG.sanitize.alphabet),
-        sanitizeBody('description').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical),
-        sanitizeBody('location.city').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical),
-        sanitizeBody('location.district').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical),
-        sanitizeBody('location.country').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical)
+        body('name').whitelist(CONFIG.sanitize.alphabet),
+        body('description').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical),
+        body('location.city').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical),
+        body('location.district').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical),
+        body('location.country').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical)
     ], UserController.create)
     .get(AuthController.checkAuth, UserController.get);
 

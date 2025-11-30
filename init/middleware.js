@@ -20,15 +20,4 @@ module.exports = (app) => {
     app.use(cookieParser());
     app.set('trust proxy', 1);
 
-    // app.use((req, res, next) => {
-    //     // check if session exists
-    //     if (global.sessData === undefined) {
-    //         global.sessData = req.session;
-    //         global.sessData.ID = req.sessionID;
-    //     } else { // yes, cookie was already present
-    //         console.log('session exists', global.sessData.ID);
-    //     }
-    //     next();
-    // });
-
 }

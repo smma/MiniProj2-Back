@@ -3,8 +3,7 @@ let router = express.Router();
 const EmailController = require('../controllers/email.controller');
 const {
     body,
-    param,
-    sanitizeBody
+    param
 } = require('express-validator');
 
 router.route('/')

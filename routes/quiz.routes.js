@@ -3,8 +3,7 @@ let router = express.Router();
 const QuizController = require('../controllers/quiz.controller');
 const {
     body,
-    param,
-    sanitizeBody
+    param
 } = require('express-validator');
 const CONFIG = require("../config/config");
 const AuthController = require("../controllers/auth.controller");

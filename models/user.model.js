@@ -54,7 +54,7 @@ userSchema
         this.auth.public_key = Math.random().toString(36).substring(2) + this._id;
         this.auth.private_key = Math.random().toString(36).substring(2) + this._id;
 
-        this.auth.password = bcrypt.hashSync(escape(this.auth.password), bcrypt.genSaltSync(2));
+        this.auth.password = bcrypt.hashSync(this.auth.password, bcrypt.genSaltSync(2));
 
         callback();
     })

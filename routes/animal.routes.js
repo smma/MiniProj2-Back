@@ -3,8 +3,7 @@ let router = express.Router();
 const AnimalController = require('../controllers/animal.controller');
 const {
     body,
-    param,
-    sanitizeBody
+    param
 } = require('express-validator');
 const CONFIG = require("../config/config");
 const AuthController = require("../controllers/auth.controller");
@@ -17,7 +16,7 @@ router.route('/')
         body('level').isInt(),
         body('links.*.types').isAlpha(),
         body('links.*.url').isURL(),
-        sanitizeBody('description').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical)
+        body('description').whitelist(CONFIG.sanitize.alphabet + CONFIG.sanitize.numerical)
     ], AnimalController.create);
 
 router.route("/deactivate/:id")

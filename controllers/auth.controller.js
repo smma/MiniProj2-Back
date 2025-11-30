@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
     if (errors.length > 0) return res.status(406).send(errors);
 
     let username = req.body.username;
-    let password = escape(req.body.password);
+    let password = req.body.password;
 
     try {
         const user = await User.findOne({

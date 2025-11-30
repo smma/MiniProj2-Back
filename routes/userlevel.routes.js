@@ -3,8 +3,7 @@ let router = express.Router();
 const UserLevelController = require('../controllers/userlevel.controller');
 const {
     body,
-    param,
-    sanitizeBody
+    param
 } = require('express-validator');
 const CONFIG = require("../config/config");
 const AuthController = require("../controllers/auth.controller");
