@@ -1,0 +1,9 @@
+node_modules/
+.env
+envFiles/
+nodemon.json
+index.html
+localstorage/locations_pt_new
+localstorage/locations_pt_new_mounted
+.DS_Store
+node_modules
