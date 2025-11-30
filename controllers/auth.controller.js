@@ -8,6 +8,7 @@ const JWT = require("jsonwebtoken");
 const CONFIG = require("../config/config");
 
 exports.getInfo = (req, res) => {
+    if (!req.user) return res.status(AuthMessages.error.e1.http).send(AuthMessages.error.e1);
     let message = AuthMessages.success.s1;
     message.body = req.user;
     return res.status(message.http).send(message);
@@ -26,7 +27,7 @@ exports.login = async (req, res) => {
             "auth.username": username
         });
 
-        if (!user || !bcrypt.compareSync(password, user.auth.password))
+        if (!user || !(await bcrypt.compare(password, user.auth.password)))
             return res.header("Authorization", null).status(AuthMessages.error.e0.http).send(AuthMessages.error.e0);
 
         let payload = {
@@ -44,7 +45,7 @@ exports.login = async (req, res) => {
         message.body = user;
         return res.header("Authorization", token).status(message.http).send(message);
     } catch (error) {
-        throw error;
+        return res.status(500).send({ error: error.message });
     }
 
 }
@@ -55,6 +56,7 @@ exports.checkAuth = async (req, res, callback) => {
     if (!token) return res.status(AuthMessages.error.e1.http).send(AuthMessages.error.e1);
 
     let payload = JWT.decode(token);
+    if (!payload || !payload.pk) return res.status(AuthMessages.error.e1.http).send(AuthMessages.error.e1);
 
     try {
         const user = await User.findOne({
@@ -63,15 +65,15 @@ exports.checkAuth = async (req, res, callback) => {
         
         if (!user) return res.status(AuthMessages.error.e1.http).send(AuthMessages.error.e1);
 
-        JWT.verify(token, user.auth.private_key, (error) => {
-            if (error) return res.status(AuthMessages.error.e1.http).send(AuthMessages.error.e1);
-
+        try {
+            JWT.verify(token, user.auth.private_key);
             req.user = user;
             return callback();
-
-        });
+        } catch (verifyError) {
+            return res.status(AuthMessages.error.e1.http).send(AuthMessages.error.e1);
+        }
     } catch (error) {
-        throw error;
+        return res.status(500).send({ error: error.message });
     }
 
 };

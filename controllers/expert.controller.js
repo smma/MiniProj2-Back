@@ -1,18 +1,18 @@
-const Sponsor = require('../models/sponsor.model');
+const Expert = require('../models/expert.model');
 const {
     validationResult
 } = require('express-validator');
-const SponsorMessages = require("../messages/sponsor.messages");
+const ExpertMessages = require("../messages/expert.messages");
 
 exports.get = async (req, res) => {
     try {
-        const sponsors = await Sponsor.find(req.query);
-        let message = SponsorMessages.success.s2;
+        const experts = await Expert.find(req.query);
+        let message = ExpertMessages.success.s2;
 
-        if (sponsors.length === 0)
-            message = SponsorMessages.success.s5;
+        if (experts.length === 0)
+            message = ExpertMessages.success.s5;
 
-        message.body = sponsors;
+        message.body = experts;
         return res.status(message.http).send(message);
     } catch (error) {
         return res.status(500).send({ error: error.message });
@@ -25,15 +25,14 @@ exports.create = async (req, res) => {
     if (errors.length > 0) return res.status(406).send(errors);
 
     try {
-            const sponsor = await new Sponsor({
-            name: req.body.name,
-            level: req.body.level,
-            contributions: req.body.contributions
-        }).save();
-        
-        let message = SponsorMessages.success.s0;
-        message.body = sponsor;
-        return res.header("location", "/sponsors/" + sponsor._id).status(message.http).send(message);
+        const expert = await new Expert({
+        name: req.body.name,
+        profession: req.body.profession,
+        yearsOfExperience: req.body.yearsOfExperience
+    }).save();
+        let message = ExpertMessages.success.s0;
+        message.body = expert;
+        return res.header("location", "/experts/" + expert._id).status(message.http).send(message);
     } catch (error) {
         return res.status(500).send({ error: error.message });
     }
@@ -45,7 +44,7 @@ exports.update = async (req, res) => {
     if (errors.length > 0) return res.status(406).send(errors);
 
     try {
-        const sponsor = await Sponsor.findOneAndUpdate({
+        const expert = await Expert.findOneAndUpdate({
             _id: req.params.id
         }, {
             $set: req.body
@@ -53,10 +52,10 @@ exports.update = async (req, res) => {
             new: true
         });
         
-        if (!sponsor) return res.status(SponsorMessages.error.e0.http).send(SponsorMessages.error.e0);
+        if (!expert) return res.status(ExpertMessages.error.e0.http).send(ExpertMessages.error.e0);
 
-        let message = SponsorMessages.success.s1;
-        message.body = sponsor;
+        let message = ExpertMessages.success.s1;
+        message.body = expert;
         return res.status(message.http).send(message);
     } catch (error) {
         return res.status(500).send({ error: error.message });
@@ -68,13 +67,12 @@ exports.delete = async (req, res) => {
     if (errors.length > 0) return res.status(406).send(errors);
 
     try {
-        const result = await Sponsor.deleteOne({
+        const result = await Expert.deleteOne({
             _id: req.params.id
         });
         
-        if (result.deletedCount <= 0) return res.status(SponsorMessages.error.e0.http).send(SponsorMessages.error.e0);
-
-        return res.status(SponsorMessages.success.s3.http).send(SponsorMessages.success.s3);
+        if (result.deletedCount <= 0) return res.status(ExpertMessages.error.e0.http).send(ExpertMessages.error.e0);
+        return res.status(ExpertMessages.success.s3.http).send(ExpertMessages.success.s3);
     } catch (error) {
         return res.status(500).send({ error: error.message });
     }
@@ -86,13 +84,13 @@ exports.getOne = async (req, res) => {
     if (errors.length > 0) return res.status(406).send(errors);
 
     try {
-        const sponsor = await Sponsor.findOne({
+        const expert = await Expert.findOne({
             _id: req.params.id
         });
         
-        if (!sponsor) return res.status(SponsorMessages.error.e0.http).send(SponsorMessages.error.e0);
-        let message = SponsorMessages.success.s2;
-        message.body = sponsor;
+        if (!expert) return res.status(ExpertMessages.error.e0.http).send(ExpertMessages.error.e0);
+        let message = ExpertMessages.success.s2;
+        message.body = expert;
         return res.status(message.http).send(message);
     } catch (error) {
         return res.status(500).send({ error: error.message });

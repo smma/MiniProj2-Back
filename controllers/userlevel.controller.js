@@ -11,13 +11,13 @@ exports.get = async (req, res) => {
 
         let message = UserLevelMessages.success.s2;
 
-        if (levels.length < 0)
+        if (levels.length === 0)
             message = UserLevelMessages.success.s4;
 
         message.body = levels;
         return res.status(message.http).send(message);
     } catch (error) {
-        throw error;
+        return res.status(500).send({ error: error.message });
     }
 
 }
@@ -37,7 +37,7 @@ exports.getOne = async (req, res) => {
         message.body = user_level;
         return res.status(message.http).send(message);
     } catch (error) {
-        throw error;
+        return res.status(500).send({ error: error.message });
     }
 
 }
@@ -58,7 +58,7 @@ exports.create = async (req, res) => {
         message.body = user_level;
         return res.header("location", "/users/levels/" + user_level._id).status(message.http).send(message);
     } catch (error) {
-        throw error;
+        return res.status(500).send({ error: error.message });
     }
 
 }
@@ -83,7 +83,7 @@ exports.update = async (req, res) => {
         message.body = user_level;
         return res.status(message.http).send(message);
     } catch (error) {
-        throw error;
+        return res.status(500).send({ error: error.message });
     }
 
 }
@@ -102,7 +102,7 @@ exports.delete = async (req, res) => {
 
         return res.status(UserLevelMessages.success.s3.http).send(UserLevelMessages.success.s3);
     } catch (error) {
-        throw error;
+        return res.status(500).send({ error: error.message });
     }
 
 }

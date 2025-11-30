@@ -5,7 +5,6 @@ const {
     body,
     param
 } = require('express-validator');
-const CONFIG = require("../config/config");
 const AuthController = require("../controllers/auth.controller");
 
 router.route('/')

@@ -11,7 +11,7 @@ exports.get = async (req, res) => {
 
         let message = AnimalMessages.success.s2;
 
-        if (animals.length < 0)
+        if (animals.length === 0)
             message = AnimalMessages.success.s5;
 
         message.body = animals;
